@@ -103,11 +103,13 @@ import SwiftUI
 public struct PageView<SelectionValue, Page>: View where SelectionValue: Hashable, Page: View {
     
     @Binding var selection: SelectionValue
+    let direction: LayoutDirection
     let next: (SelectionValue) -> SelectionValue?
     let previous: (SelectionValue) -> SelectionValue?
     @ViewBuilder let pageContent: (SelectionValue) -> Page
     @State private var id = UUID()
     @StateObject private var values: ValueStore
+
     
     /// Creates a new page view that computes its pages using closures to determine the next and previous
     /// page value.
@@ -118,11 +120,13 @@ public struct PageView<SelectionValue, Page>: View where SelectionValue: Hashabl
     ///   - content: A view builder that returns the page content for a given value.
     public init(
         selection: Binding<SelectionValue>,
+        direction: LayoutDirection,
         next: @escaping (SelectionValue) -> SelectionValue?,
         previous: @escaping (SelectionValue) -> SelectionValue?,
         @ViewBuilder content: @escaping (SelectionValue) -> Page
     ) {
         self._selection = selection
+        self.direction = direction
         self.next = next
         self.previous = previous
         self.pageContent = content
@@ -156,12 +160,13 @@ extension PageView {
     ///   - content: A `ForEach` containing some hashable data.
     public init<Data>(
         selection: Binding<SelectionValue>,
+        direction: LayoutDirection,
         content: () -> ForEach<Data, Data.Element, Page>
     ) where Data : RandomAccessCollection, SelectionValue == Data.Element {
         let content = content()
         let data = content.data
         let page = content.content
-        self.init(selection: selection) { value in
+        self.init(selection: selection, direction: direction) { value in
             guard let index = data.firstIndex(of: value) else {
                 return nil
             }
@@ -197,12 +202,13 @@ extension PageView {
     ///   - content: A `ForEach` containing some identifiable data.
     public init<Data>(
         selection: Binding<SelectionValue>,
+        direction: LayoutDirection,
         content: () -> ForEach<Data, Data.Element.ID, Page>
     ) where Data : RandomAccessCollection, Data.Element : Identifiable, SelectionValue == Data.Element.ID {
         let content = content()
         let data = content.data
         let page = content.content
-        self.init(selection: selection) { id in
+        self.init(selection: selection, direction: direction) { id in
             guard let index = data.firstIndex(where: { $0.id == id }) else {
                 return nil
             }
@@ -232,13 +238,13 @@ extension PageView {
 extension PageView {
     
     var configuration: PageViewStyleConfiguration {
-        .init(selection: configurationSelection) { value in
+        .init(selection: configurationSelection, next: { value in
             values[value, 1]
-        } previous: { value in
+        }, previous: { value in
             values[value, -1]
-        } content: { value in
-            .init(pageContent(value.wrappedValue as! SelectionValue))
-        }
+        }, content: { value in
+                .init(pageContent(value.wrappedValue as! SelectionValue))
+        }, direction: self.direction)
     }
     
     var configurationSelection: Binding<PageViewStyleConfiguration.Value> {

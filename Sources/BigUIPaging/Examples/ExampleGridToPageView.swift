@@ -2,7 +2,8 @@ import SwiftUI
 
 /// An example of how to go from a Grid to a PageView, and back again.
 struct ExampleGridToPageView: View {
-    
+    @Environment(\.layoutDirection) var layoutDirection
+
     @State private var isOpen = false
     @State private var selection = 1
     @State private var openedSelection: Int? = nil
@@ -62,7 +63,7 @@ struct ExampleGridToPageView: View {
         }
         .overlay {
             if isOpen {
-                PageView(selection: $selection) {
+                PageView(selection: $selection, direction: layoutDirection) {
                     ForEach(1...100, id: \.self) { id in
                         ExampleCardPage(value: id)
                     }

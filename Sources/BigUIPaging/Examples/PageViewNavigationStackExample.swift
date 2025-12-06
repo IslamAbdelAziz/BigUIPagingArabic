@@ -23,7 +23,7 @@ struct PageViewWithNavigationStackExample: View {
     }
     
     struct RootView: View {
-        
+        @Environment(\.layoutDirection) var layoutDirection
         @State private var items: [MyItem]
         @State private var selection: MyItem.ID
         
@@ -39,7 +39,7 @@ struct PageViewWithNavigationStackExample: View {
                 PageViewNavigationButton()
                     .padding()
                 #endif
-                PageView(selection: $selection) {
+                PageView(selection: $selection, direction: layoutDirection) {
                     ForEach(items) { item in
                         ContentView(id: item.id)
                     }

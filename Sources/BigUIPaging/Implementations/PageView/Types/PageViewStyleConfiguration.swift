@@ -49,6 +49,9 @@ public struct PageViewStyleConfiguration {
     
     /// A page view for the given value
     public let content: (Value) -> Page
+    
+    /// Firection to support RTL 
+    public var direction: LayoutDirection
 }
 
 extension PageViewStyleConfiguration {

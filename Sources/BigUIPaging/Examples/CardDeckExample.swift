@@ -3,13 +3,14 @@ import SwiftUI
 /// An example of how to create a deck of cards.
 @available(macOS, unavailable)
 struct CardDeckExample: View {
-    
+    @Environment(\.layoutDirection) var layoutDirection
+
     @State private var selection: Int = 1
     private let totalPages = 10
     
     var body: some View {
         VStack {
-            PageView(selection: $selection) {
+            PageView(selection: $selection, direction: layoutDirection) {
                 ForEach(1...totalPages, id: \.self) { value in
                     ExamplePage(value: value)
                         // Resize to be more card-like.
@@ -55,5 +56,6 @@ struct CardDeckExample_Previews: PreviewProvider {
     
     static var previews: some View {
         CardDeckExample()
+            .environment(\.layoutDirection, .leftToRight)
     }
 }

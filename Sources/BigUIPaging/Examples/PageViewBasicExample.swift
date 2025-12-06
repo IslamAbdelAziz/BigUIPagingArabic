@@ -2,11 +2,11 @@ import SwiftUI
 
 /// An example of how to use page view with next and previous closures.
 struct PageViewBasicExample: View {
-    
+    @Environment(\.layoutDirection) var layoutDirection
     @State private var selection: Int = 1
     
     var body: some View {
-        PageView(selection: $selection) { value in
+        PageView(selection: $selection, direction: layoutDirection) { value in
             value + 1
         } previous: { value in
             value > 1 ? value - 1 : nil

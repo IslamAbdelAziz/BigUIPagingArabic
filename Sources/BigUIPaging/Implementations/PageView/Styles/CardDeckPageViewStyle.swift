@@ -81,7 +81,11 @@ struct CardDeckPageView: View {
     var dragGesture: some Gesture {
         DragGesture(minimumDistance: 5)
             .onChanged { value in
-                self.dragProgress = -(value.translation.width / containerSize.width)
+                if configuration.direction == .rightToLeft {
+                    self.dragProgress = (value.translation.width / containerSize.width)
+                } else {
+                    self.dragProgress = -(value.translation.width / containerSize.width)
+                }
             }
             .onEnded { value in
                 snapToNearestIndex()
@@ -227,5 +231,6 @@ struct DeckPageViewStyle_Previews: PreviewProvider {
     
     public static var previews: some View {
         CardDeckExample()
+            .environment(\.layoutDirection, .rightToLeft)
     }
 }
