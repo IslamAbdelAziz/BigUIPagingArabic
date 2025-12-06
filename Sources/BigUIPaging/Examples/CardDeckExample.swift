@@ -10,7 +10,7 @@ struct CardDeckExample: View {
     
     var body: some View {
         VStack {
-            PageView(selection: $selection, direction: layoutDirection) {
+            PageeView(selection: $selection, direction: layoutDirection) {
                 ForEach(1...totalPages, id: \.self) { value in
                     ExamplePage(value: value)
                         // Resize to be more card-like.

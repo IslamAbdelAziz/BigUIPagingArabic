@@ -7,7 +7,7 @@ struct PageViewForEachExample: View {
     @State private var selection: Int = 1
     
     var body: some View {
-        PageView(selection: $selection, direction: layoutDirection) {
+        PageeView(selection: $selection, direction: layoutDirection) {
             ForEach(1...10, id: \.self) { value in
                 ExamplePage(value: value)
             }

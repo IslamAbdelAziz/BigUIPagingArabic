@@ -6,7 +6,7 @@ struct PageViewBasicExample: View {
     @State private var selection: Int = 1
     
     var body: some View {
-        PageView(selection: $selection, direction: layoutDirection) { value in
+        PageeView(selection: $selection, direction: layoutDirection) { value in
             value + 1
         } previous: { value in
             value > 1 ? value - 1 : nil

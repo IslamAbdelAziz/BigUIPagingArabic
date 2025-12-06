@@ -63,7 +63,7 @@ struct ExampleGridToPageView: View {
         }
         .overlay {
             if isOpen {
-                PageView(selection: $selection, direction: layoutDirection) {
+                PageeView(selection: $selection, direction: layoutDirection) {
                     ForEach(1...100, id: \.self) { id in
                         ExampleCardPage(value: id)
                     }

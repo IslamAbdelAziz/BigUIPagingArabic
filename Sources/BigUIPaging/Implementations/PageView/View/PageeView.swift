@@ -100,7 +100,7 @@ import SwiftUI
 /// .pageViewEnvironment()
 /// ```
 ///
-public struct PageView<SelectionValue, Page>: View where SelectionValue: Hashable, Page: View {
+public struct PageeView<SelectionValue, Page>: View where SelectionValue: Hashable, Page: View {
     
     @Binding var selection: SelectionValue
     let direction: LayoutDirection
@@ -151,7 +151,7 @@ public struct PageView<SelectionValue, Page>: View where SelectionValue: Hashabl
 
 // MARK: - Convenience initialisers
 
-extension PageView {
+extension PageeView {
 
     /// Creates a new page view that computes its pages on demand from an underlying collection of
     /// hashable data.
@@ -235,7 +235,7 @@ extension PageView {
 
 // MARK: - Style Handling
 
-extension PageView {
+extension PageeView {
     
     var configuration: PageViewStyleConfiguration {
         .init(selection: configurationSelection, next: { value in
@@ -308,7 +308,7 @@ extension PageViewStyleConfiguration {
 
 // MARK: - Caching 
 
-extension PageView {
+extension PageeView {
     
     /// A cache for next and previous values.
     @MainActor class ValueStore: ObservableObject {
