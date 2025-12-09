@@ -102,7 +102,7 @@ struct VerticalCardDeckPageView: View {
                 self.dragProgress = 0.0
             }
         } else {
-            let direction = dragProgress < 0 ? 1 : -1 // Drag up (negative) -> next item (increment index), Drag down (positive) -> prev item
+            let direction = dragProgress < 0 ? -1 : 1 // Drag up (negative) -> next item (increment index), Drag down (positive) -> prev item
             withAnimation(.smooth(duration: 0.25)) {
                 go(to: selectedIndex + direction)
                 self.dragProgress = 0.0
