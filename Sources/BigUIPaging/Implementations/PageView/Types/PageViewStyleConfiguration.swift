@@ -52,6 +52,9 @@ public struct PageViewStyleConfiguration {
     
     /// Firection to support RTL 
     public var direction: LayoutDirection
+    
+    /// Whether to apply rotation effects in supported styles
+    public var addRotation: Bool = true
 }
 
 extension PageViewStyleConfiguration {

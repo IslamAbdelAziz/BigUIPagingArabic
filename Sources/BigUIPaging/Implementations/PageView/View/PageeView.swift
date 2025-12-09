@@ -104,6 +104,7 @@ public struct PageeView<SelectionValue, Page>: View where SelectionValue: Hashab
     
     @Binding var selection: SelectionValue
     let direction: LayoutDirection
+    let addRotation: Bool
     let next: (SelectionValue) -> SelectionValue?
     let previous: (SelectionValue) -> SelectionValue?
     @ViewBuilder let pageContent: (SelectionValue) -> Page
@@ -121,12 +122,14 @@ public struct PageeView<SelectionValue, Page>: View where SelectionValue: Hashab
     public init(
         selection: Binding<SelectionValue>,
         direction: LayoutDirection,
+        addRotation: Bool = true,
         next: @escaping (SelectionValue) -> SelectionValue?,
         previous: @escaping (SelectionValue) -> SelectionValue?,
         @ViewBuilder content: @escaping (SelectionValue) -> Page
     ) {
         self._selection = selection
         self.direction = direction
+        self.addRotation = addRotation
         self.next = next
         self.previous = previous
         self.pageContent = content
@@ -161,12 +164,13 @@ extension PageeView {
     public init<Data>(
         selection: Binding<SelectionValue>,
         direction: LayoutDirection,
+        addRotation: Bool = true,
         content: () -> ForEach<Data, Data.Element, Page>
     ) where Data : RandomAccessCollection, SelectionValue == Data.Element {
         let content = content()
         let data = content.data
         let page = content.content
-        self.init(selection: selection, direction: direction) { value in
+        self.init(selection: selection, direction: direction, addRotation: addRotation) { value in
             guard let index = data.firstIndex(of: value) else {
                 return nil
             }
@@ -203,12 +207,13 @@ extension PageeView {
     public init<Data>(
         selection: Binding<SelectionValue>,
         direction: LayoutDirection,
+        addRotation: Bool = true,
         content: () -> ForEach<Data, Data.Element.ID, Page>
     ) where Data : RandomAccessCollection, Data.Element : Identifiable, SelectionValue == Data.Element.ID {
         let content = content()
         let data = content.data
         let page = content.content
-        self.init(selection: selection, direction: direction) { id in
+        self.init(selection: selection, direction: direction, addRotation: addRotation) { id in
             guard let index = data.firstIndex(where: { $0.id == id }) else {
                 return nil
             }
@@ -244,7 +249,7 @@ extension PageeView {
             values[value, -1]
         }, content: { value in
                 .init(pageContent(value.wrappedValue as! SelectionValue))
-        }, direction: self.direction)
+        }, direction: self.direction, addRotation: self.addRotation)
     }
     
     var configurationSelection: Binding<PageViewStyleConfiguration.Value> {

@@ -57,7 +57,7 @@ struct VerticalCardDeckPageView: View {
                     .zIndex(zIndex(for: page.index))
                     .offset(y: yOffset(for: page.index))
                     .scaleEffect(scale(for: page.index))
-//                    .rotationEffect(.degrees(rotation(for: page.index)))
+                    .rotationEffect(.degrees(configuration.addRotation ? rotation(for: page.index) : 0))
                     .shadow(color: shadow(for: page.index), radius: 30, y: 20)
             }
         }
