@@ -33,7 +33,7 @@ data source:
 @State private var selection: Int = 1
 
 var body: some View {
-    PageView(selection: $selection) {
+    PageeView(selection: $selection) {
         ForEach(1...10, id: \.self) { id in
             Text("Page \(value)")
         }
@@ -68,14 +68,15 @@ before you can interact with it.
 The exact navigation gesture or transition depends on the chosen style. By default
 a page view has no transitions or gestures.
 
-Style           | iOS   | macOS
-------------    | ----- | ------
-`.plain`        | ✅    | ✅
-`.scroll`       | ✅    | ✅
-`.book`         | ✅    | 
-`.historyStack` |       | ✅
-`.bookStack`    |       | ✅
-`.cardDeck`     | ✅    |
+Style                   | iOS   | macOS
+------------            | ----- | ------
+`.plain`                | ✅    | ✅
+`.scroll`               | ✅    | ✅
+`.book`                 | ✅    | 
+`.historyStack`         |       | ✅
+`.bookStack`            |       | ✅
+`.cardDeck`             | ✅    |
+`.verticalCardDeck`     | ✅    |
 
 You set a style with the view modifier:
 
