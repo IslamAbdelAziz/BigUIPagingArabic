@@ -71,6 +71,32 @@ struct VerticalCardDeckPageView: View {
             configuration.selection.wrappedValue = pages[newValue].value
         }
         .onChange(of: configuration.selection.wrappedValue) { newValue in
+            // Find if newValue is in current pages
+            if let newIndex = pages.firstIndex(where: { $0.value == newValue }) {
+                let diff = newIndex - selectedIndex
+                if diff == 1 {
+                    // Next
+                    withAnimation(.smooth(duration: 0.25)) {
+                        self.dragProgress = 1.0
+                    }
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
+                        self.makePages(from: newValue)
+                        self.dragProgress = 0.0
+                    }
+                    return
+                } else if diff == -1 {
+                    // Prev
+                    withAnimation(.smooth(duration: 0.25)) {
+                        self.dragProgress = -1.0
+                    }
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
+                        self.makePages(from: newValue)
+                        self.dragProgress = 0.0
+                    }
+                    return
+                }
+            }
+            
             makePages(from: newValue)
             self.dragProgress = 0.0
         }

@@ -41,6 +41,31 @@ struct VerticalCardDeckExample: View {
             )
             .pageIndicatorColor(.secondary.opacity(0.3))
             .pageIndicatorCurrentColor(selection.color)
+            
+            HStack {
+                Button {
+                    withAnimation {
+                        selection = max(1, selection - 1)
+                    }
+                } label: {
+                    Image(systemName: "arrow.up")
+                        .padding()
+                        .background(Color.gray.opacity(0.2))
+                        .clipShape(Circle())
+                }
+                
+                Button {
+                    withAnimation {
+                        selection = min(totalPages, selection + 1)
+                    }
+                } label: {
+                    Image(systemName: "arrow.down")
+                        .padding()
+                        .background(Color.gray.opacity(0.2))
+                        .clipShape(Circle())
+                }
+            }
+            .padding()
         }
     }
     
